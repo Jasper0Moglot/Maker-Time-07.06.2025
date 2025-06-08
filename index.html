@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Notes App</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark-theme">
 
@@ -38,8 +38,16 @@
       <span class="close-btn" id="closeModal">&times;</span>
       <h2 id="modalTitle">Додати нотатку</h2>
     </div>
-    <input type="text" id="noteTitle" placeholder="Заголовок">
+    <input type="text" id="noteTitle" placeholder="Заголовок" />
     <textarea id="noteDescription" rows="5" placeholder="Опис"></textarea>
+
+    <!-- Блок вибору кольору -->
+    <div class="color-picker-section">
+      <label for="noteColor">Виберіть колір нотатки:</label>
+      <input type="color" id="noteColor" value="#ffffff" title="Вибрати колір" />
+      <input type="text" id="noteColorHex" placeholder="#ffffff або градієнт" />
+    </div>
+
     <button id="saveNote">Зберегти</button>
   </div>
 

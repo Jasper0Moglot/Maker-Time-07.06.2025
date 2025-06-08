@@ -51,7 +51,7 @@ body.light-theme #themeSelect {
   justify-content: flex-start;
 }
 
-/* Карточка "Добавить" */
+/* Карточка "Добавити" */
 .note-card {
   border: 2px dashed #aaa;
   border-radius: 16px;
@@ -84,6 +84,7 @@ body.light-theme #themeSelect {
   flex-direction: column;
   gap: 10px;
   transition: box-shadow 0.3s;
+  word-break: break-word;
 }
 
 .note:hover {
@@ -179,7 +180,7 @@ body.dark-theme .note-options button:hover {
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  width: 300px;
+  width: 320px;
   z-index: 100;
 }
 
@@ -189,7 +190,8 @@ body.dark-theme .modal {
 }
 
 /* Вхідні поля */
-.modal input, .modal textarea {
+.modal input[type="text"], 
+.modal textarea {
   width: 100%;
   padding: 10px;
   margin: 10px 0 20px;
@@ -197,13 +199,39 @@ body.dark-theme .modal {
   border: 1px solid #ccc;
   font-size: 14px;
   background: #f0f0f0;
+  box-sizing: border-box;
 }
 
-body.dark-theme .modal input,
+body.dark-theme .modal input[type="text"],
 body.dark-theme .modal textarea {
   background: #2c2c2c;
   border: 1px solid #444;
   color: #eee;
+}
+
+/* Кнопка color picker */
+.color-picker-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: inherit;
+}
+
+.color-picker-section input[type="color"] {
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.color-picker-section input[type="text"] {
+  flex-grow: 1;
+  padding: 8px 10px;
+  font-family: monospace;
 }
 
 /* Кнопка зберегти */
