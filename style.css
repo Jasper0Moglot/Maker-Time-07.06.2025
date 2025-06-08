@@ -1,0 +1,239 @@
+/* Базовые настройки */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Темна тема */
+body.dark-theme {
+  background-color: #121212;
+  color: #fff;
+}
+
+/* Світла тема */
+body.light-theme {
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+/* Темний select */
+#themeSelect {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #666;
+  background: #333;
+  color: white;
+}
+
+body.light-theme #themeSelect {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+#themeSwitcher {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+}
+
+/* Контейнер нотаток */
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 80px 40px 40px;
+  justify-content: flex-start;
+}
+
+/* Карточка "Добавить" */
+.note-card {
+  border: 2px dashed #aaa;
+  border-radius: 16px;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #888;
+  transition: all 0.2s;
+}
+
+.note-card:hover {
+  border-color: #555;
+  color: #555;
+}
+
+/* Нотатка */
+.note {
+  background: #ffffff;
+  color: #333;
+  border-radius: 16px;
+  width: 220px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.3s;
+}
+
+.note:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+body.dark-theme .note {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+/* Назва */
+.note-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Опис */
+.note-description {
+  font-size: 14px;
+  margin: 0;
+  flex-grow: 1;
+  white-space: pre-wrap;
+}
+
+/* Дата */
+.note-date {
+  font-size: 12px;
+  color: #aaa;
+  opacity: 0.8;
+}
+
+body.light-theme .note-date {
+  color: #666;
+}
+
+/* Меню */
+.note-menu {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Опції */
+.note-options {
+  display: none;
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+body.dark-theme .note-options {
+  background: #2a2a2a;
+  border: 1px solid #444;
+}
+
+.note-options button {
+  padding: 10px 15px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: inherit;
+}
+
+.note-options button:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+body.dark-theme .note-options button:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Модальне вікно */
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  width: 300px;
+  z-index: 100;
+}
+
+body.dark-theme .modal {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+/* Вхідні поля */
+.modal input, .modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #f0f0f0;
+}
+
+body.dark-theme .modal input,
+body.dark-theme .modal textarea {
+  background: #2c2c2c;
+  border: 1px solid #444;
+  color: #eee;
+}
+
+/* Кнопка зберегти */
+.modal button {
+  padding: 10px 15px;
+  border: none;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+body.light-theme .modal button {
+  background: #007bff;
+  color: #fff;
+}
+
+.modal button:hover {
+  opacity: 0.9;
+}
+
+/* Закрити кнопку */
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-size: 22px;
+  color: #aaa;
+}
+
+.close-btn:hover {
+  color: #000;
+}

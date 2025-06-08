@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Notes App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+  <div id="themeSwitcher">
+    <label for="themeSelect">Тема сайту:</label>
+    <select id="themeSelect">
+      <option value="dark" selected>DARK</option>
+      <option value="light">LIGHT</option>
+    </select>
+  </div>
+
+  <div class="notes-container">
+    <div class="note-card" id="addNoteBtn">
+      <div style="font-size: 48px;">+</div>
+      <div>Додати нотатку</div>
+    </div>
+
+    <div class="note template-note" style="display: none;">
+      <h3 class="note-title">Заголовок</h3>
+      <p class="note-description">Опис</p>
+      <div class="note-date"></div>
+      <div class="note-menu">⋮</div>
+      <div class="note-options">
+        <button class="edit-note">Редагувати</button>
+        <button class="delete-note">Видалити</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="noteModal">
+    <div>
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2 id="modalTitle">Додати нотатку</h2>
+    </div>
+    <input type="text" id="noteTitle" placeholder="Заголовок">
+    <textarea id="noteDescription" rows="5" placeholder="Опис"></textarea>
+    <button id="saveNote">Зберегти</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
