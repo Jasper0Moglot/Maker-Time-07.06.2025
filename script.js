@@ -54,7 +54,6 @@ noteColorInput.oninput = () => {
 
 noteColorHexInput.oninput = () => {
   const val = noteColorHexInput.value.trim();
-  // Якщо введений валідний HEX колір, оновлюємо color picker
   if (isValidHex(val)) {
     noteColorInput.value = val;
   }
@@ -118,7 +117,7 @@ function renderAllNotes() {
 function renderNote(note) {
   const noteDiv = templateNote.cloneNode(true);
   noteDiv.classList.remove('template-note');
-  noteDiv.style.display = 'flex'; // flex, щоб зберегти flex-direction
+  noteDiv.style.display = 'flex';
 
   noteDiv.querySelector('.note-title').textContent = note.title;
   noteDiv.querySelector('.note-description').textContent = note.description;
@@ -129,22 +128,21 @@ function renderNote(note) {
   dateEl.textContent = note.date;
   noteDiv.appendChild(dateEl);
 
-  // Застосувати колір (фон)
-  // Якщо це градієнт — ставимо в background, якщо HEX — теж
+  // Застосувати колір фону
   noteDiv.style.background = note.color;
-  
-  // Визначити контрастний колір тексту (для кращої видимості)
+
+  // Визначити контрастний колір тексту
+  let textColor;
   if (!isGradient(note.color)) {
-    const textColor = getContrastYIQ(note.color);
+    textColor = getContrastYIQ(note.color);
     noteDiv.style.color = textColor;
   } else {
-    // Для градієнту залишаємо колір за замовчуванням (білий для теми, чорний для світлої)
-    if (document.body.classList.contains('dark-theme')) {
-      noteDiv.style.color = '#eee';
-    } else {
-      noteDiv.style.color = '#222';
-    }
+    textColor = document.body.classList.contains('dark-theme') ? '#eee' : '#222';
+    noteDiv.style.color = textColor;
   }
+
+  // Встановити цей самий колір для дати
+  dateEl.style.color = textColor;
 
   const menuBtn = noteDiv.querySelector('.note-menu');
   const optionsMenu = noteDiv.querySelector('.note-options');
@@ -177,14 +175,11 @@ function renderNote(note) {
     noteTitleInput.value = note.title;
     noteDescriptionInput.value = note.description;
 
-    // Встановити колір у інпут
     if (isValidHex(note.color)) {
       noteColorInput.value = note.color;
       noteColorHexInput.value = note.color;
     } else {
-      // Градієнт чи інше
       noteColorHexInput.value = note.color;
-      // Поставимо колір за замовчуванням (білий), щоб не було помилки в color picker
       noteColorInput.value = '#ffffff';
     }
 
@@ -195,12 +190,12 @@ function renderNote(note) {
   notesContainer.appendChild(noteDiv);
 }
 
-// Перевірка, чи рядок - градієнт (починається з "linear-gradient" або "radial-gradient")
+// Перевірка, чи рядок - градієнт
 function isGradient(str) {
   return /^linear-gradient|^radial-gradient/.test(str);
 }
 
-// Функція для вибору контрастного кольору тексту (чорний чи білий) для читабельності на фоні
+// Функція для вибору контрастного кольору тексту
 function getContrastYIQ(hexcolor) {
   if (!isValidHex(hexcolor)) return '#000';
   let r, g, b;
@@ -213,6 +208,6 @@ function getContrastYIQ(hexcolor) {
     g = parseInt(hexcolor.substr(3, 2), 16);
     b = parseInt(hexcolor.substr(5, 2), 16);
   }
-  const yiq = (r*299 + g*587 + b*114) / 1000;
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
   return (yiq >= 128) ? '#000' : '#fff';
 }
