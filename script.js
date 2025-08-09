@@ -30,6 +30,15 @@ let currentNoteId = null;
 let notes = JSON.parse(localStorage.getItem('notes')) || [];
 renderAllNotes();
 
+// Закриття всіх меню опцій кліком поза ними (єдиний глобальний обробник)
+document.addEventListener('click', (e) => {
+  if (!(e.target.closest('.note-options') || e.target.closest('.note-menu'))) {
+    document.querySelectorAll('.note-options').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+});
+
 // ===== Відкрити модальне вікно =====
 addNoteBtn.onclick = () => {
   isEditing = false;
@@ -64,6 +73,14 @@ function isValidHex(color) {
   return /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(color);
 }
 
+// Санітизація кольору: дозволяємо лише HEX або безпечні градієнти
+function sanitizeColor(input) {
+  const value = String(input).trim();
+  if (isValidHex(value)) return value;
+  if (isGradient(value)) return value;
+  return null;
+}
+
 // ===== Зберегти нотатку =====
 saveNote.onclick = () => {
   const title = noteTitleInput.value.trim();
@@ -79,11 +96,17 @@ saveNote.onclick = () => {
     return;
   }
 
+  const sanitizedColor = sanitizeColor(colorValue);
+  if (!sanitizedColor) {
+    alert('Некоректний колір. Використовуйте HEX або CSS градієнт (linear-gradient або radial-gradient).');
+    return;
+  }
+
   if (isEditing && currentNoteId !== null) {
     const note = notes.find(n => n.id === currentNoteId);
     note.title = title;
     note.description = description;
-    note.color = colorValue;
+    note.color = sanitizedColor;
     saveNotesToStorage();
     renderAllNotes();
   } else {
@@ -91,7 +114,7 @@ saveNote.onclick = () => {
       id: Date.now(),
       title,
       description,
-      color: colorValue,
+      color: sanitizedColor,
       date: new Date().toLocaleString()
     };
     notes.push(newNote);
@@ -122,11 +145,11 @@ function renderNote(note) {
   noteDiv.querySelector('.note-title').textContent = note.title;
   noteDiv.querySelector('.note-description').textContent = note.description;
 
-  // Додати дату
-  const dateEl = document.createElement('div');
-  dateEl.className = 'note-date';
-  dateEl.textContent = note.date;
-  noteDiv.appendChild(dateEl);
+  // Додати/оновити дату у вже існуючому елементі .note-date
+  const dateEl = noteDiv.querySelector('.note-date');
+  if (dateEl) {
+    dateEl.textContent = note.date;
+  }
 
   // Застосувати колір фону
   noteDiv.style.background = note.color;
@@ -142,7 +165,9 @@ function renderNote(note) {
   }
 
   // Встановити цей самий колір для дати
-  dateEl.style.color = textColor;
+  if (dateEl) {
+    dateEl.style.color = textColor;
+  }
 
   const menuBtn = noteDiv.querySelector('.note-menu');
   const optionsMenu = noteDiv.querySelector('.note-options');
@@ -154,10 +179,6 @@ function renderNote(note) {
     });
     optionsMenu.style.display = optionsMenu.style.display === 'block' ? 'none' : 'block';
   };
-
-  document.addEventListener('click', () => {
-    optionsMenu.style.display = 'none';
-  });
 
   // Видалення
   noteDiv.querySelector('.delete-note').onclick = () => {
@@ -192,7 +213,9 @@ function renderNote(note) {
 
 // Перевірка, чи рядок - градієнт
 function isGradient(str) {
-  return /^linear-gradient|^radial-gradient/.test(str);
+  const s = String(str).trim();
+  // Дозволяємо тільки linear-gradient(...) або radial-gradient(...), без url() та крапки з комою
+  return /^(linear-gradient|radial-gradient)\((?!.*url\()[^;]*\)$/i.test(s);
 }
 
 // Функція для вибору контрастного кольору тексту
